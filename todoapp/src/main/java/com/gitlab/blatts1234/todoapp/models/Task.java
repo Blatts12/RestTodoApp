@@ -24,7 +24,6 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    private Integer priority = 0;
 
     @ManyToOne
     @JoinColumn(name = "project_id")

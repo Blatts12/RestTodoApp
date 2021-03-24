@@ -68,7 +68,7 @@ public class ProjectController {
             .map(project -> {
                 project.setTitle(newProject.getTitle());
                 project.setDescription(newProject.getDescription());
-                project.setElements(newProject.getElements());
+                project.setTasks(newProject.getTasks());
                 return projectRepository.save(project);
             }).orElseGet(() -> {
                 newProject.setId(id);

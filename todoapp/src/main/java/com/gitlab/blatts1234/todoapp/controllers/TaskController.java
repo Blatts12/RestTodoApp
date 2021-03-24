@@ -17,6 +17,7 @@ import com.gitlab.blatts1234.todoapp.repositories.TaskRepository;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,7 +80,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/projects/{projectId}/tasks/{id}")
-    public ResponseEntity<?> deleteProject(@PathVariable Long projectId, @PathVariable Long id) {
+    public ResponseEntity<?> deleteTask(@PathVariable Long projectId, @PathVariable Long id) {
         projectRepository.findById(projectId)
             .orElseThrow(() -> new ProjectNotFoundException(projectId));
 
@@ -135,4 +136,27 @@ public class TaskController {
         task.setStatus(Status.TODO);
         return ResponseEntity.ok(taskAssembler.toModel(taskRepository.save(task)));
     }
+
+    @PutMapping("/projects/{projectId}/tasks/{id}")
+    public ResponseEntity<?> updateProject(@PathVariable Long projectId, @PathVariable Long id, @RequestBody Task newTask) {
+        Project project = projectRepository.findById(projectId)
+            .orElseThrow(() -> new ProjectNotFoundException(projectId));
+
+        Task updatedTask = taskRepository.findByIdAndProject(id, project)
+            .map(task -> {
+                task.setTitle(newTask.getTitle());
+                task.setDescription(newTask.getDescription());
+                return taskRepository.save(task);
+            }).orElseGet(() -> {
+                newTask.setId(id);
+                return taskRepository.save(newTask);
+            });
+        
+        EntityModel<Task> taskModel = taskAssembler.toModel(updatedTask);
+
+        return ResponseEntity
+            .created(taskModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+            .body(taskModel);
+    }
+
 }

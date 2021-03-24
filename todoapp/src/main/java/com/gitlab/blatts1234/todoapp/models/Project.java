@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -23,12 +25,15 @@ public class Project {
     @GeneratedValue
     @Column(name = "project_id")
     private Long id;
+
     private String title;
+
     private String description;
     
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Task> elements = new ArrayList<>();
+    @JsonIgnore
+    private List<Task> tasks = new ArrayList<>();
 
     public Project(String title, String description) {
         this.title = title;
