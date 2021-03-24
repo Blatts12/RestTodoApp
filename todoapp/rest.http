@@ -1,0 +1,19 @@
+GET http://localhost:8080/projects
+
+###
+
+GET http://localhost:8080/projects/1/tasks
+
+###
+
+GET http://localhost:8080/projects/1/tasks/3
+
+###
+
+PUT http://localhost:8080/projects/1/tasks/3/wip
+
+###
+
+DELETE http://localhost:8080/projects/1/tasks/3/drop
+
+###

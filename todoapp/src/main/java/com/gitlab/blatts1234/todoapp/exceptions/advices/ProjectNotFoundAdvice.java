@@ -1,5 +1,5 @@
 package com.gitlab.blatts1234.todoapp.exceptions.advices;
-import com.gitlab.blatts1234.todoapp.exceptions.TodoProjectNotFoundException;
+import com.gitlab.blatts1234.todoapp.exceptions.ProjectNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class TodoProjectNotFoundAdvice {
+public class ProjectNotFoundAdvice {
     
     @ResponseBody
-    @ExceptionHandler(TodoProjectNotFoundException.class)
+    @ExceptionHandler(ProjectNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String TodoProjectNotFoundHandler(TodoProjectNotFoundException ex) {
+    String TodoProjectNotFoundHandler(ProjectNotFoundException ex) {
         return ex.getMessage();
     }
 }
