@@ -1,4 +1,3 @@
 # TodoApp
 
-React
 Spring Boot
